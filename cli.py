@@ -1,15 +1,7 @@
 import click
-# import openai
 
 from src.md_loader import MdLoader
-# from core.resume_match import ResumeMatchSystem
-# from core.document_loader import ResumeJsonLoader
-# from core.vector_store import VectorStores
-
-# # 设置 OpenAI API 密钥
-# openai.api_key = "your_openai_api_key"
-# # 保存对话历史的列表
-# conversation_history = []
+from src.qa import QA
 
 
 @click.group()
@@ -24,7 +16,7 @@ def run_rag():
     一个基于终端的多轮对话工具
     """
     click.echo("欢迎使用resume rag系统, 输入JD进行简历匹配和分析, 输入 'exit' 或 'quit' 退出对话。")
-    
+
     while True:
         # 获取用户输入
         user_input = click.prompt("输入")
@@ -33,6 +25,20 @@ def run_rag():
         if user_input.lower() in ["exit", "quit"]:
             click.echo("感谢使用，再见！")
             break
+
+        qa = QA()
+        res = qa.run(user_input)
+
+        print(res)
+
+       
+        # # 输出结果
+        # # 输出查询结果
+        # for idx, result in enumerate(results):
+        #     print(f"Result {idx + 1}:")
+        #     print(f"Content: {result.page_content}")  # 获取文档内容
+        #     print(f"Metadata: {result.metadata}")    # 获取文档的元数据（如果有）
+        #     print("---")
 
 #         res = ResumeMatchSystem().analyze_job_resume_match(user_input)
 
