@@ -143,8 +143,5 @@ csv
 dump.rdb
 readme
 data
-
-settings.yaml
-settings.pro.yaml
-
+/md
 md
