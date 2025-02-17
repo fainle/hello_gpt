@@ -2,6 +2,8 @@ import click
 
 from src.md_loader import MdLoader
 from src.qa import QA
+from src.deep_seek_qa import DeepSeekQa
+from src.data_load import DataLoader
 
 
 @click.group()
@@ -70,6 +72,49 @@ def save_md_to_milvus():
     click.echo("对md目录的文档进行向量话存储")
     MdLoader().loader_md(path='./md')
     click.echo("加载完毕")
+
+
+@cli.command()
+def run_ds_rag():
+    """
+    一个基于终端的多轮对话工具
+    """
+    click.echo("deepseek api 问答, 基于火山大模型")
+
+    while True:
+        # 获取用户输入
+        user_input = click.prompt("输入")
+
+        # 退出条件
+        if user_input.lower() in ["exit", "quit"]:
+            click.echo("感谢使用，再见！")
+            break
+
+        qa = DeepSeekQa()
+        res = qa.run(user_input)
+        # print(res)
+
+@cli.command()
+def test_ds_api():
+    """
+    测试ds_api(基于火山大模型)
+    """
+    print('ds api')
+
+@cli.command()
+def test_ds_api2():
+    qa = DeepSeekQa()
+    import  json
+    e = qa.embedd(json.dumps('a'))
+
+
+@cli.command()
+def data_to_milvus():
+    """
+    load lccc data to milvus (1w) use doubao-embedding
+    """
+    data_load = DataLoader()
+    data_load.save_to_milvus()
 
 
 if __name__ == "__main__":
